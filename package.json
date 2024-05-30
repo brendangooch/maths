@@ -18,9 +18,9 @@
     "access": "public"
   },
   "exports": {
-    ".": "./lib/maths.js"
+    ".": "./lib/index.js"
   },
-  "types": "./lib/maths.d.ts",
+  "types": "./lib/index.d.ts",
   "files": [
     "/lib",
     "!/lib/**/*.js.map",
@@ -42,5 +42,24 @@
     "url": "https://github.com/brendangooch/maths/issues",
     "email": "brendangooch@gmail.com"
   },
-  "keywords": []
+  "keywords": [
+    "maths",
+    "maths library",
+    "angle",
+    "norm",
+    "normalize",
+    "lerp",
+    "linear interpolation",
+    "map",
+    "clamp",
+    "degrees",
+    "radians",
+    "angle",
+    "2d vector",
+    "ector",
+    "bezier",
+    "quadratic bezier",
+    "cubic bezier",
+    "bezier curve"
+  ]
 }
