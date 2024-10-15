@@ -27,9 +27,4 @@ export class QuadraticBezierCurve {
         return Math.pow(1 - t, 2) * this.start.y + (1 - t) * 2 * t * this.control.y + t * t * this.end.y;
     }
 
-    public vector2D(t: number): Vector2D {
-        t = clamp(t, 0, 1);
-        return new Vector2D(this.x(t), this.y(t));
-    }
-
 }

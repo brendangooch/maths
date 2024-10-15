@@ -29,9 +29,4 @@ export class CubicBezierCurve {
         return Math.pow(1 - t, 3) * this.start.y + Math.pow(1 - t, 2) * 3 * t * this.controlA.y + (1 - t) * 3 * t * t * this.controlB.y + t * t * t * this.end.y;
     }
 
-    public Vector2D(t: number): Vector2D {
-        t = clamp(t, 0, 1);
-        return new Vector2D(this.x(t), this.y(t));
-    }
-
 }

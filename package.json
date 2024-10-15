@@ -1,17 +1,19 @@
 {
   "name": "@brendangooch/maths",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "author": "B Gooch <brendangooch@gmail.com>",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "pretest": "npm run build",
+    "pretest": "clear && npm run remove-tmp && tsc --outdir tmp",
+    "posttest": "npm run remove-tmp",
+    "prebuild": "npm run remove-lib",
     "prepack": "npm run build",
-    "prebuild": "npm run clean",
-    "clean": "rm -rf lib",
+    "remove-tmp": "rm -rf tmp",
+    "remove-lib": "rm -rf lib",
     "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" NODE_NO_WARNINGS=1 jest",
-    "build": "tsc"
+    "build": "tsc -p tsconfig.prod.json"
   },
   "private": false,
   "publishConfig": {

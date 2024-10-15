@@ -30,6 +30,7 @@ function testAll(): void {
     testNormalize();
     testCopy();
     testClone();
+    testLoadAndSave();
 
 }
 
@@ -510,4 +511,69 @@ function testClone(): void {
 
     });
 
+}
+
+function testLoadAndSave(): void {
+    describe('load(...) / save()', () => {
+        testValidLoadDoesNotThrowError();
+        testInvalidJSONThrowsError();
+        testMissingXPropertyThrowsError();
+        testMissingYPropertyThrowsError();
+        testPropertiesStayTheSameOnSaveThenLoad();
+    });
+}
+
+function testValidLoadDoesNotThrowError(): void {
+    test('valid load does not throw error', () => {
+        const v = new Vector2D(5, 5);
+        expect(() => v.load(JSON.stringify({
+            x: 10,
+            y: 10
+        }))).not.toThrow();
+    });
+}
+
+function testInvalidJSONThrowsError(): void {
+    test('loading invalid json throws error', () => {
+        const v = new Vector2D(5, 5);
+        expect(() => v.load(JSON.stringify('}'))).toThrow();
+    });
+}
+
+function testMissingXPropertyThrowsError(): void {
+    test('missing x property throws error', () => {
+        const v = new Vector2D();
+        expect(() => v.load(JSON.stringify({
+            // x: 10,
+            y: 10
+        }))).toThrow();
+    });
+}
+
+function testMissingYPropertyThrowsError(): void {
+    test('missing y property throws error', () => {
+        const v = new Vector2D();
+        expect(() => v.load(JSON.stringify({
+            x: 10,
+            // y: 10
+        }))).toThrow();
+    });
+}
+
+function testPropertiesStayTheSameOnSaveThenLoad(): void {
+    test('properties stay the same ib save then load', () => {
+        const v = new Vector2D(10, 10);
+        const before = {
+            x: v.x,
+            y: v.y,
+            length: v.length,
+            angle: v.angle
+        };
+        v.load(v.save());
+        expect(v.x).toBe(before.x);
+        expect(v.y).toBe(before.x);
+        expect(v.length).toBe(before.length);
+        expect(v.angle).toBe(before.angle);
+
+    });
 }

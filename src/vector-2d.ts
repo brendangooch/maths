@@ -14,37 +14,37 @@ export class Vector2D {
         this._y = y;
     }
 
-    get x(): number {
+    public get x(): number {
         return this._x;
     }
 
-    set x(x: number) {
+    public set x(x: number) {
         this._x = x;
     }
 
-    get y(): number {
+    public get y(): number {
         return this._y;
     }
 
-    set y(y: number) {
+    public set y(y: number) {
         this._y = y;
     }
 
-    get angle(): number {
+    public get angle(): number {
         return Math.atan2(this._y, this._x);
     }
 
-    set angle(radians: number) {
+    public set angle(radians: number) {
         const length = this.length;
         this._x = Math.cos(radians) * length;
         this._y = Math.sin(radians) * length;
     }
 
-    get length(): number {
+    public get length(): number {
         return Math.sqrt(this._x * this._x + this._y * this._y);
     }
 
-    set length(px: number) {
+    public set length(px: number) {
         const angle = this.angle;
         this._x = Math.cos(angle) * px;
         this._y = Math.sin(angle) * px;
@@ -101,6 +101,21 @@ export class Vector2D {
 
     public clone(): Vector2D {
         return new Vector2D(this._x, this._y);
+    }
+
+    public save(): string {
+        return JSON.stringify({
+            x: this._x,
+            y: this._y
+        });
+    }
+
+    public load(json: string): void {
+        const state = JSON.parse(json);
+        if (state.x === undefined) throw new Error('missing "x" property');
+        if (state.y === undefined) throw new Error('missing "y" property');
+        this.x = state.x;
+        this.y = state.y;
     }
 
 }
