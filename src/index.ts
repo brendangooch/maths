@@ -17,3 +17,4 @@ export { Angle } from './angle.js';
 export { Vector2D } from './vector-2d.js';
 export { QuadraticBezierCurve } from './quadratic-bezier-curve.js';
 export { CubicBezierCurve } from './cubic-bezier-curve.js';
+export { AspectRatio } from './aspect-ratio.js';

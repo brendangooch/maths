@@ -3,5 +3,7 @@
     "exclude": [
         "**/*.test.ts",
         "**/*.spec.ts"
-    ]
+    ],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
 }
