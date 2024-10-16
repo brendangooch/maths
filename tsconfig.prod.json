@@ -4,6 +4,8 @@
         "**/*.test.ts",
         "**/*.spec.ts"
     ],
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "compilerOptions": {
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
+    }
 }
