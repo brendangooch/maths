@@ -11,6 +11,56 @@ export class QuadraticBezierCurve {
     private e: Vector2D = new Vector2D(1, 0);
     private equal: boolean = true; // all vectors have the same x/y values
 
+    public x(t: number): number {
+        if (t === 0) return this.s.x;
+        if (t === 1) return this.e.x;
+        if (this.equal) return this.s.x;
+        return this.calculateX(t);
+    }
+
+    public y(t: number): number {
+        if (t === 0) return this.s.y;
+        if (t === 1) return this.e.y;
+        if (this.equal) return this.s.y;
+        return this.calculateY(t);
+    }
+
+    public setStart(x: number, y: number): void {
+        this.s.setXY(x, y);
+        this.checkEqual();
+    }
+
+    public setControl(x: number, y: number): void {
+        this.c.setXY(x, y);
+        this.checkEqual();
+    }
+
+    public setEnd(x: number, y: number): void {
+        this.e.setXY(x, y);
+        this.checkEqual();
+    }
+
+    public setAll(x: number, y: number): void {
+        this.setStart(x, y);
+        this.setControl(x, y);
+        this.setEnd(x, y);
+    }
+
+    // angle in radians
+    public setControlByDistanceAndAngleFromStart(distance: number, angle: number): void {
+        this.c =
+            this.e.subtract(this.s)
+                .addAngle(angle)
+                .setLength(distance)
+                .addTo(this.s);
+    }
+
+    // sets control half way between start and end, making a perfect straight line
+    // makes no sense if all points are equal
+    public makeStraight(): void {
+        if (!this.equal) this.c = this.e.subtract(this.s).divideBy(2).addTo(this.s);
+    }
+
     public save(): string {
         return JSON.stringify({
             start: this.s.save(),
@@ -30,56 +80,6 @@ export class QuadraticBezierCurve {
         this.c.load(state.control);
         this.e.load(state.end);
         this.equal = state.equal;
-    }
-
-    public x(t: number): number {
-        if (t === 0) return this.s.x;
-        if (t === 1) return this.e.x;
-        if (this.equal) return this.s.x;
-        return this.calculateX(t);
-    }
-
-    public y(t: number): number {
-        if (t === 0) return this.s.y;
-        if (t === 1) return this.e.y;
-        if (this.equal) return this.s.y;
-        return this.calculateY(t);
-    }
-
-    public setStart(v: Vector2D): void {
-        this.s.copy(v);
-        this.checkEqual();
-    }
-
-    public setControl(v: Vector2D): void {
-        this.c.copy(v);
-        this.checkEqual();
-    }
-
-    public setEnd(v: Vector2D): void {
-        this.e.copy(v);
-        this.checkEqual();
-    }
-
-    public setAll(v: Vector2D): void {
-        this.setStart(v);
-        this.setControl(v);
-        this.setEnd(v);
-    }
-
-    // angle in radians
-    public setControlByDistanceAndAngleFromStart(distance: number, angle: number): void {
-        this.c =
-            this.e.subtract(this.s)
-                .addAngle(angle)
-                .setLength(distance)
-                .addTo(this.s);
-    }
-
-    // sets control half way between start and end, making a perfect straight line
-    // makes no sense if all points are equal
-    public makeStraight(): void {
-        if (!this.equal) this.c = this.e.subtract(this.s).divideBy(2).addTo(this.s);
     }
 
     private calculateX(t: number): number {

@@ -14,9 +14,10 @@ beforeEach(() => {
     control = new Vector2D(300, 400);
     end = new Vector2D(500, 600);
     bezier = new QuadraticBezierCurve();
-    bezier.setStart(start);
-    bezier.setControl(control);
-    bezier.setEnd(end);
+    bezier.setStart(start.x, start.y);
+    bezier.setControl(control.x, control.y);
+    bezier.setEnd(end.x, end.y);
+
 });
 
 testAll();
@@ -57,7 +58,7 @@ function testAllVectorsEqualOnInstantiationXIs1YIs0(): void {
 
 function testCallingSetAllSetsXYValueRegardlessOrTValue(): void {
     test('when calling setAll() that vector is returned regardless of t value', () => {
-        bezier.setAll(new Vector2D(100, 200));
+        bezier.setAll(100, 200);
         expect(bezier.x(-0.5)).toBe(100);
         expect(bezier.y(-0.5)).toBe(200);
         expect(bezier.x(0)).toBe(100);
@@ -85,7 +86,7 @@ function testTValueCanGoVer1AndUnder0(): void {
 }
 
 function testT0ReturnsStartVectorXY(): void {
-    test('t of 0 returns start vector', () => {
+    test('t of 0 returns start values', () => {
         expect(bezier.x(0)).toBe(start.x);
         expect(bezier.y(0)).toBe(start.y);
     });

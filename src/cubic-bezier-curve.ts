@@ -26,6 +26,33 @@ export class CubicBezierCurve {
         return this.calculateY(t);
     }
 
+    public setStart(x: number, y: number): void {
+        this.s.setXY(x, y);
+        this.checkEqual();
+    }
+
+    public setControlA(x: number, y: number): void {
+        this.a.setXY(x, y);
+        this.checkEqual();
+    }
+
+    public setControlB(x: number, y: number): void {
+        this.b.setXY(x, y);
+        this.checkEqual();
+    }
+
+    public setEnd(x: number, y: number): void {
+        this.e.setXY(x, y);
+        this.checkEqual();
+    }
+
+    public setAll(x: number, y: number): void {
+        this.setStart(x, y);
+        this.setControlA(x, y);
+        this.setControlB(x, y);
+        this.setEnd(x, y);
+    }
+
     public save(): string {
         return JSON.stringify({
             start: this.s.save(),
@@ -48,33 +75,6 @@ export class CubicBezierCurve {
         this.b.load(state.controlB);
         this.e.load(state.end);
         this.equal = state.equal;
-    }
-
-    public setStart(v: Vector2D): void {
-        this.s.copy(v);
-        this.checkEqual();
-    }
-
-    public setControlA(v: Vector2D): void {
-        this.a.copy(v);
-        this.checkEqual();
-    }
-
-    public setControlB(v: Vector2D): void {
-        this.b.copy(v);
-        this.checkEqual();
-    }
-
-    public setEnd(v: Vector2D): void {
-        this.e.copy(v);
-        this.checkEqual();
-    }
-
-    public setAll(v: Vector2D): void {
-        this.setStart(v);
-        this.setControlA(v);
-        this.setControlB(v);
-        this.setEnd(v);
     }
 
     private calculateX(t: number): number {

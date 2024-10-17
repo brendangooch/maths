@@ -16,10 +16,10 @@ beforeEach(() => {
     controlB = new Vector2D(5, 6);
     end = new Vector2D(7, 8);
     bezier = new CubicBezierCurve();
-    bezier.setStart(start);
-    bezier.setControlA(controlA);
-    bezier.setControlB(controlB);
-    bezier.setEnd(end);
+    bezier.setStart(start.x, start.y);
+    bezier.setControlA(controlA.x, controlA.y);
+    bezier.setControlB(controlB.x, controlB.y);
+    bezier.setEnd(end.x, end.y);
 });
 
 testAll();
@@ -64,7 +64,7 @@ function testAllVectorsEqualOnInstantiationXIs1YIs0(): void {
 
 function testCallingSetAllSetsXYValueRegardlessOrTValue(): void {
     test('when calling setAll() that vector is returned regardless of t value', () => {
-        bezier.setAll(new Vector2D(100, 200));
+        bezier.setAll(100, 200);
         expect(bezier.x(-0.5)).toBe(100);
         expect(bezier.y(-0.5)).toBe(200);
         expect(bezier.x(0)).toBe(100);
