@@ -6,6 +6,7 @@
     ],
     "compilerOptions": {
         "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "sourceMap": false
     }
 }

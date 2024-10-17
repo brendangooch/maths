@@ -10,28 +10,57 @@ describe('Vector2D', () => {
 });
 
 function testAll(): void {
+
+    testConstructor();
+
     testGetX();
     testGetY();
     testSetX();
     testSetY();
+    testSetXY();
+
     testGetAngle();
-    testSetAngle();
     testGetLength();
+    testSetAngle();
+    testAddAngle();
     testSetLength();
+
     testAdd();
     testSubtract();
     testMultiply();
     testDivide();
+
     testAddTo();
     testSubtractFrom();
     testMultiplyBy();
     testDivideBy();
+
     testDistanceTo();
-    testNormalize();
+    testNormalise();
     testCopy();
     testClone();
+    testEquals();
     testLoadAndSave();
 
+
+}
+
+function testConstructor(): void {
+    describe('constructor()', () => {
+
+        test('defaults to x = 1, y = 0 if no params given', () => {
+            const v = new Vector2D();
+            expect(v.x).toBe(1);
+            expect(v.y).toBe(0);
+        });
+
+        test('can be chained with other methods', () => {
+            const v = new Vector2D().setX(5).setY(10);
+            expect(v.x).toBe(5);
+            expect(v.y).toBe(10);
+        });
+
+    });
 }
 
 // get x(): number
@@ -72,34 +101,70 @@ function testGetY(): void {
 
 }
 
-// set x(x: number): number
+// setX(x: number): Vector2D
 function testSetX(): void {
 
-    describe('set x()', () => {
+    describe('setX()', () => {
 
         test('can set and retrieve x', () => {
             const v1 = new Vector2D();
-            v1.x = 10;
+            v1.setX(10);
             expect(v1.x).toBe(10);
+        });
+
+        test('can be chained to other methods', () => {
+            const v = new Vector2D();
+            v.setX(20).setY(40);
+            expect(v.x).toBe(20);
+            expect(v.y).toBe(40);
+        });
+
+
+    });
+
+}
+
+// setY(y: number): Vector2D
+function testSetY(): void {
+
+    describe('setY()', () => {
+
+        test('can set and retrieve y', () => {
+            const v = new Vector2D();
+            v.setY(10);
+            expect(v.y).toBe(10);
+        });
+
+        test('can be chained to other methods', () => {
+            const v = new Vector2D();
+            v.setY(10).setX(20);
+            expect(v.y).toBe(10);
+            expect(v.x).toBe(20);
         });
 
     });
 
 }
 
-// set y(y: number): number
-function testSetY(): void {
+// setXY(x: number, y: number): Vector2D
+function testSetXY(): void {
+    describe('setXY(...)', () => {
 
-    describe('set y()', () => {
+        test('sets both x & y values in one call', () => {
+            const v = new Vector2D(10, 10);
+            v.setXY(20, 30);
+            expect(v.x).toBe(20);
+            expect(v.y).toBe(30);
+        });
 
-        test('can set and retrieve y', () => {
-            const v1 = new Vector2D();
-            v1.y = 10;
-            expect(v1.y).toBe(10);
+        test('can be chained to other methods', () => {
+            const v = new Vector2D(10, 10);
+            v.setXY(20, 30).addTo(new Vector2D(10, 10));
+            expect(v.x).toBe(30);
+            expect(v.y).toBe(40);
         });
 
     });
-
 }
 
 // get angle(): number
@@ -146,44 +211,6 @@ function testGetAngle(): void {
 
 }
 
-// set angle(radians: number)
-function testSetAngle(): void {
-
-    describe('set angle()', () => {
-
-        test('can set and retrive the same angle', () => {
-            const v1 = new Vector2D();
-            const angle = new Angle();
-            angle.degrees = 45;
-            v1.angle = angle.radians;
-            expect(v1.angle).toBe(angle.radians);
-        });
-
-        test('in a normalized vector, an angle of Math.PI / 2 makes x = ~0, y = ~1', () => {
-            const v1 = new Vector2D();
-            v1.angle = Math.PI / 2;
-            expect(v1.x).toBeCloseTo(0);
-            expect(v1.y).toBeCloseTo(1);
-        });
-
-        test('in a normalized vector, an angle of Math.PI makes x = ~-1, y = ~0', () => {
-            const v1 = new Vector2D();
-            v1.angle = Math.PI;
-            expect(v1.x).toBeCloseTo(-1);
-            expect(v1.y).toBeCloseTo(0);
-        });
-
-        test('in a normalized vector, an angle of -Math.PI / 2 makes x = ~0, y = ~-1', () => {
-            const v1 = new Vector2D();
-            v1.angle = -Math.PI / 2;
-            expect(v1.x).toBeCloseTo(0);
-            expect(v1.y).toBeCloseTo(-1);
-        });
-
-    });
-
-}
-
 // get length(): number
 function testGetLength(): void {
 
@@ -203,27 +230,105 @@ function testGetLength(): void {
 
 }
 
-// set length(): number
+// setAngle(radians: number): Vector2D
+function testSetAngle(): void {
+
+    describe('setAngle()', () => {
+
+        test('can set and retrive the same angle', () => {
+            const v1 = new Vector2D();
+            const angle = new Angle();
+            angle.degrees = 45;
+            v1.setAngle(angle.radians);
+            expect(v1.angle).toBeCloseTo(angle.radians);
+        });
+
+        test('in a normalized vector, an angle of Math.PI / 2 makes x = ~0, y = ~1', () => {
+            const v1 = new Vector2D();
+            v1.setAngle(Math.PI / 2);
+            expect(v1.x).toBeCloseTo(0);
+            expect(v1.y).toBeCloseTo(1);
+        });
+
+        test('in a normalized vector, an angle of Math.PI makes x = ~-1, y = ~0', () => {
+            const v1 = new Vector2D();
+            v1.setAngle(Math.PI);
+            expect(v1.x).toBeCloseTo(-1);
+            expect(v1.y).toBeCloseTo(0);
+        });
+
+        test('in a normalized vector, an angle of -Math.PI / 2 makes x = ~0, y = ~-1', () => {
+            const v1 = new Vector2D();
+            v1.setAngle(-Math.PI / 2);
+            expect(v1.x).toBeCloseTo(0);
+            expect(v1.y).toBeCloseTo(-1);
+        });
+
+        test('can be chained to other methods', () => {
+            const v = new Vector2D();
+            v.setAngle(Math.PI / 2).setLength(500);
+            expect(v.length).toBeCloseTo(500);
+        });
+
+    });
+
+}
+
+// addAngle(radians: number): Vector2D
+function testAddAngle(): void {
+    describe('addAngle(...)', () => {
+
+        test('adds to existing angle', () => {
+            const v = new Vector2D(100, 100);
+            v.setAngle(Math.PI / 2);
+            v.addAngle(Math.PI / 2);
+            expect(v.angle).toBeCloseTo(Math.PI);
+        });
+
+        test('can subtract by passing negative value', () => {
+            const v = new Vector2D(100, 100);
+            v.setAngle(Math.PI / 2);
+            v.addAngle(-Math.PI / 2);
+            expect(v.angle).toBeCloseTo(0);
+        });
+
+        test('can be chained to other methods', () => {
+            const v = new Vector2D(10, 10);
+            v.addAngle(Math.PI).setXY(20, 50);
+            expect(v.x).toBe(20);
+            expect(v.y).toBe(50);
+        });
+
+    });
+}
+
+// setLength(): Vector2D
 function testSetLength(): void {
 
-    describe('set length()', () => {
+    describe('setLength(...)', () => {
 
         test('can set and retrieve the same length', () => {
             const v1 = new Vector2D();
-            v1.length = 10;
+            v1.setLength(10);
             expect(v1.length).toBeCloseTo(10);
             expect(v1.x).toBe(10);
         });
 
         test('angle stays the same when length is changed', () => {
-            const v1 = new Vector2D(10, 10);
+            const v1 = new Vector2D(25, 25);
             const angle = v1.angle;
             for (let i = 1; i < 10; i++) {
-                v1.length = i;
+                v1.setLength(i);
                 expect(v1.angle).toBeCloseTo(angle);
             }
 
         })
+
+        test('can be chained to other methods', () => {
+            const v = new Vector2D(20, 100);
+            v.setLength(100).divideBy(2);
+            expect(v.length).toBeCloseTo(50);
+        });
 
     });
 
@@ -339,7 +444,7 @@ function testDivide(): void {
 
 }
 
-// public addTo(v2: Vector2D): void
+// public addTo(v2: Vector2D): Vector2D
 function testAddTo(): void {
 
     describe('addTo', () => {
@@ -352,11 +457,19 @@ function testAddTo(): void {
             expect(v1.y).toBe(22);
         });
 
+        test('can be chained to other methods', () => {
+            const v1 = new Vector2D(10, 11);
+            const v2 = new Vector2D(10, 11);
+            v1.addTo(v2).addTo(v2);
+            expect(v1.x).toBe(30);
+            expect(v1.y).toBe(33);
+        });
+
     });
 
 }
 
-// public subtractFrom(v2: Vector2D): void
+// public subtractFrom(v2: Vector2D): Vector2D
 function testSubtractFrom(): void {
 
     describe('subtractFrom', () => {
@@ -369,11 +482,19 @@ function testSubtractFrom(): void {
             expect(v1.y).toBe(4);
         });
 
+        test('can be chained to other methods', () => {
+            const v1 = new Vector2D(5, 8);
+            const v2 = new Vector2D(3, 4);
+            v1.subtractFrom(v2).subtractFrom(v2);
+            expect(v1.x).toBe(-1);
+            expect(v1.y).toBe(0);
+        });
+
     });
 
 }
 
-// public multiplyBy(val: number): void
+// public multiplyBy(val: number): Vector2D
 function testMultiplyBy(): void {
 
     describe('multiplyBy', () => {
@@ -385,11 +506,18 @@ function testMultiplyBy(): void {
             expect(v1.y).toBe(12);
         });
 
+        test('can be chained to other methods', () => {
+            const v1 = new Vector2D(5, 6);
+            v1.multiplyBy(2).divideBy(2);
+            expect(v1.x).toBeCloseTo(5);
+            expect(v1.y).toBeCloseTo(6);
+        });
+
     });
 
 }
 
-// public divideBy(val: number): void
+// public divideBy(val: number): Vector2D
 function testDivideBy(): void {
 
     describe('divideBy', () => {
@@ -399,6 +527,13 @@ function testDivideBy(): void {
             v1.divideBy(2);
             expect(v1.x).toBe(2.5);
             expect(v1.y).toBe(3);
+        });
+
+        test('can be chained to other methods', () => {
+            const v1 = new Vector2D(5, 6);
+            v1.divideBy(2).multiplyBy(2);
+            expect(v1.x).toBe(5);
+            expect(v1.y).toBe(6);
         });
 
     });
@@ -421,15 +556,15 @@ function testDistanceTo(): void {
 
 }
 
-// public normalize(): void
-function testNormalize(): void {
+// public normalise(): void
+function testNormalise(): void {
 
-    describe('normalize()', () => {
+    describe('normalise()', () => {
 
         test('normalize sets length to 1', () => {
             const v1 = new Vector2D(50, 50);
             expect(v1.length).toBeGreaterThan(1);
-            v1.normalize();
+            v1.normalise();
             expect(v1.length).toBeCloseTo(1);
         });
 
@@ -437,28 +572,28 @@ function testNormalize(): void {
             for (let i = 1; i < 100; i++) {
                 const v1 = new Vector2D(50, 50);
                 const angle = v1.angle;
-                v1.normalize();
+                v1.normalise();
                 expect(v1.angle).toBeCloseTo(angle);
             }
         });
 
         test('when x & y are equal, normalize makes them < 1', () => {
             const v1 = new Vector2D(50, 50);
-            v1.normalize();
+            v1.normalise();
             expect(v1.x).toBeLessThan(1);
             expect(v1.y).toBeLessThan(1);
         });
 
         test('when x is 10, y is 0, x === length, therefore normalize makes x === 1', () => {
             const v1 = new Vector2D(10, 0);
-            v1.normalize();
+            v1.normalise();
             expect(v1.x).toBe(1);
             expect(v1.y).toBe(0);
         });
 
         test('when x is 0, y is 10, y === length, therefore normalize makes y === 1', () => {
             const v1 = new Vector2D(0, 10);
-            v1.normalize();
+            v1.normalise();
             expect(v1.x).toBe(0);
             expect(v1.y).toBe(1);
         });
@@ -511,6 +646,18 @@ function testClone(): void {
 
     });
 
+}
+
+function testEquals(): void {
+    describe('equals(...)', () => {
+        test('true when vectors have same x & y values, false otherwise', () => {
+            const v1 = new Vector2D(1, 2);
+            const v2 = new Vector2D(1, 2);
+            const v3 = new Vector2D(2, 1);
+            expect(v1.equals(v2)).toBeTruthy();
+            expect(v1.equals(v3)).not.toBeTruthy();
+        });
+    });
 }
 
 function testLoadAndSave(): void {
@@ -577,3 +724,4 @@ function testPropertiesStayTheSameOnSaveThenLoad(): void {
 
     });
 }
+

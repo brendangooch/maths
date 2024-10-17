@@ -12,101 +12,130 @@ export class Vector2D {
     public constructor(x: number = 1, y: number = 0) {
         this._x = x;
         this._y = y;
+        return this;
     }
 
     public get x(): number {
         return this._x;
     }
 
-    public set x(x: number) {
-        this._x = x;
-    }
-
     public get y(): number {
         return this._y;
     }
 
-    public set y(y: number) {
-        this._y = y;
-    }
-
     public get angle(): number {
-        return Math.atan2(this._y, this._x);
-    }
-
-    public set angle(radians: number) {
-        const length = this.length;
-        this._x = Math.cos(radians) * length;
-        this._y = Math.sin(radians) * length;
+        return Math.atan2(this.y, this.x);
     }
 
     public get length(): number {
-        return Math.sqrt(this._x * this._x + this._y * this._y);
+        return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
-    public set length(px: number) {
+    public setX(x: number): Vector2D {
+        this._x = x;
+        return this;
+    }
+
+    public setY(y: number): Vector2D {
+        this._y = y;
+        return this;
+    }
+
+    public setXY(x: number, y: number): Vector2D {
+        this.setX(x);
+        this.setY(y);
+        // this._x = x;
+        // this._y = y;
+        return this;
+    }
+
+    public setAngle(radians: number): Vector2D {
+        const length = this.length;
+        this.setX(Math.cos(radians) * length);
+        this.setY(Math.sin(radians) * length);
+        // this._x = Math.cos(radians) * length;
+        // this._y = Math.sin(radians) * length;
+        return this;
+    }
+
+    // add angle to existing angle rather than setting again
+    public addAngle(radians: number): Vector2D {
+        this.setAngle(this.angle + radians);
+        return this;
+    }
+
+    public setLength(px: number): Vector2D {
         const angle = this.angle;
-        this._x = Math.cos(angle) * px;
-        this._y = Math.sin(angle) * px;
+        this.setX(Math.cos(angle) * px);
+        this.setY(Math.sin(angle) * px);
+        // this._x = Math.cos(angle) * px;
+        // this._y = Math.sin(angle) * px;
+        return this;
     }
 
     public add(v2: Vector2D): Vector2D {
-        return new Vector2D(this._x + v2.x, this._y + v2.y);
+        return new Vector2D(this.x + v2.x, this.y + v2.y);
     }
 
     public subtract(v2: Vector2D): Vector2D {
-        return new Vector2D(this._x - v2.x, this._y - v2.y);
+        return new Vector2D(this.x - v2.x, this.y - v2.y);
     }
 
     public multiply(val: number): Vector2D {
-        return new Vector2D(this._x * val, this._y * val);
+        return new Vector2D(this.x * val, this.y * val);
     }
 
     public divide(val: number): Vector2D {
-        return new Vector2D(this._x / val, this._y / val);
+        return new Vector2D(this.x / val, this.y / val);
     }
 
-    public addTo(v2: Vector2D): void {
+    public addTo(v2: Vector2D): Vector2D {
         this._x += v2.x;
         this._y += v2.y;
+        return this;
     }
 
-    public subtractFrom(v2: Vector2D): void {
+    public subtractFrom(v2: Vector2D): Vector2D {
         this._x -= v2.x;
         this._y -= v2.y;
+        return this;
     }
 
-    public multiplyBy(val: number): void {
+    public multiplyBy(val: number): Vector2D {
         this._x *= val;
         this._y *= val;
+        return this;
     }
 
-    public divideBy(val: number): void {
+    public divideBy(val: number): Vector2D {
         this._x /= val;
         this._y /= val;
+        return this;
     }
 
     public distanceTo(v2: Vector2D): number {
-        return distanceBetween(this._x, this._y, v2.x, v2.y);
+        return distanceBetween(this.x, this.y, v2.x, v2.y);
     }
 
-    public normalize(): void {
+    public normalise(): Vector2D {
         this.divideBy(this.length);
+        return this;
     }
 
-    public copy(v2: Vector2D): void {
-        this._x = v2.x;
-        this._y = v2.y;
+    public copy(v2: Vector2D): Vector2D {
+        this.setX(v2.x);
+        this.setY(v2.y);
+        return this;
     }
 
     public clone(): Vector2D {
-        return new Vector2D(this._x, this._y);
+        return new Vector2D(this.x, this.y);
     }
 
     public save(): string {
         return JSON.stringify({
-            x: this._x,
-            y: this._y
+            x: this.x,
+            y: this.y
         });
     }
 
@@ -114,8 +143,12 @@ export class Vector2D {
         const state = JSON.parse(json);
         if (state.x === undefined) throw new Error('missing "x" property');
         if (state.y === undefined) throw new Error('missing "y" property');
-        this.x = state.x;
-        this.y = state.y;
+        this.setX(state.x);
+        this.setY(state.y);
+    }
+
+    public equals(v2: Vector2D): boolean {
+        return this.x === v2.x && this.y === v2.y;
     }
 
 }
