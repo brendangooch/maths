@@ -26,19 +26,22 @@ export class QuadraticBezierCurve {
         return this.calculateY(t);
     }
 
-    public setStart(x: number, y: number): void {
+    public setStart(x: number, y: number): QuadraticBezierCurve {
         this.s.setXY(x, y);
         this.checkEqual();
+        return this;
     }
 
-    public setControl(x: number, y: number): void {
+    public setControl(x: number, y: number): QuadraticBezierCurve {
         this.c.setXY(x, y);
         this.checkEqual();
+        return this;
     }
 
-    public setEnd(x: number, y: number): void {
+    public setEnd(x: number, y: number): QuadraticBezierCurve {
         this.e.setXY(x, y);
         this.checkEqual();
+        return this;
     }
 
     public setAll(x: number, y: number): void {

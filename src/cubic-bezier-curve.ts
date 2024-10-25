@@ -26,24 +26,28 @@ export class CubicBezierCurve {
         return this.calculateY(t);
     }
 
-    public setStart(x: number, y: number): void {
+    public setStart(x: number, y: number): CubicBezierCurve {
         this.s.setXY(x, y);
         this.checkEqual();
+        return this;
     }
 
-    public setControlA(x: number, y: number): void {
+    public setControlA(x: number, y: number): CubicBezierCurve {
         this.a.setXY(x, y);
         this.checkEqual();
+        return this;
     }
 
-    public setControlB(x: number, y: number): void {
+    public setControlB(x: number, y: number): CubicBezierCurve {
         this.b.setXY(x, y);
         this.checkEqual();
+        return this;
     }
 
-    public setEnd(x: number, y: number): void {
+    public setEnd(x: number, y: number): CubicBezierCurve {
         this.e.setXY(x, y);
         this.checkEqual();
+        return this;
     }
 
     public setAll(x: number, y: number): void {

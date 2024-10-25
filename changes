@@ -59,7 +59,7 @@ v4.0.0
     added distanceBetween() to both Bezier classes, which returns the distance between start and end vector
     default start values are now 0,0
     removed makeStraight() from QuadraticBezier - why use a bezier when a vector will do?
-
+    added method chaining to setter functions on both Bezier classes
 
 
 
