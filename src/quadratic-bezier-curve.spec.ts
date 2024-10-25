@@ -24,11 +24,15 @@ testAll();
 function testAll(): void {
     describe('QuadraticBezierCurve', () => {
 
-        testAllVectorsEqualOnInstantiationXIs1YIs0();
+        testAllVectorsEqualOnInstantiationXIs0YIs0();
         testCallingSetAllSetsXYValueRegardlessOrTValue();
         testTValueCanGoVer1AndUnder0();
         testT0ReturnsStartVectorXY();
         testT1ReturnsEndVectorXY();
+
+        testDistanceBetweenReturnsExpectedDistance();
+        testDistanceBetweenReturns0IfStartAndEndPointNotSet();
+        testDistanceBetweenReturns0IfStartAndEndPointTheSameValue();
 
         testThrowsNoErrorOnSuccessfulLoad();
         testThrowsErrorOnInvalidJSON();
@@ -40,18 +44,18 @@ function testAll(): void {
     });
 }
 
-function testAllVectorsEqualOnInstantiationXIs1YIs0(): void {
-    test('on instantiation, all vectors are equal and x returns 1, y returns 0, regardless of t value', () => {
+function testAllVectorsEqualOnInstantiationXIs0YIs0(): void {
+    test('on instantiation, all vectors are equal and x returns 0, y returns 0, regardless of t value', () => {
         bezier = new QuadraticBezierCurve();
-        expect(bezier.x(-0.5)).toBe(1);
+        expect(bezier.x(-0.5)).toBe(0);
         expect(bezier.y(-0.5)).toBe(0);
-        expect(bezier.x(0)).toBe(1);
+        expect(bezier.x(0)).toBe(0);
         expect(bezier.y(0)).toBe(0);
-        expect(bezier.x(0.5)).toBe(1);
+        expect(bezier.x(0.5)).toBe(0);
         expect(bezier.y(0.5)).toBe(0);
-        expect(bezier.x(1)).toBe(1);
+        expect(bezier.x(1)).toBe(0);
         expect(bezier.y(1)).toBe(0);
-        expect(bezier.x(1.5)).toBe(1);
+        expect(bezier.x(1.5)).toBe(0);
         expect(bezier.y(1.5)).toBe(0);
     });
 }
@@ -98,6 +102,29 @@ function testT1ReturnsEndVectorXY(): void {
         expect(bezier.y(1)).toBe(end.y);
     });
 }
+
+function testDistanceBetweenReturnsExpectedDistance(): void {
+    test('distanceBetween() returns expected distance', () => {
+        expect(bezier.distanceBetween()).toBe(start.distanceTo(end));
+    });
+}
+
+function testDistanceBetweenReturns0IfStartAndEndPointNotSet(): void {
+    test('distanceBetween() returns 0 if start and end point not set', () => {
+        bezier = new QuadraticBezierCurve();
+        expect(bezier.distanceBetween()).toBe(0);
+    });
+}
+
+function testDistanceBetweenReturns0IfStartAndEndPointTheSameValue(): void {
+    test('distanceBetween() returns 0 if start and end point the same value', () => {
+        bezier = new QuadraticBezierCurve();
+        bezier.setAll(500, 600);
+        expect(bezier.distanceBetween()).toBe(0);
+    });
+}
+
+
 
 function testThrowsNoErrorOnSuccessfulLoad(): void {
     test('throws no error on successful load', () => {

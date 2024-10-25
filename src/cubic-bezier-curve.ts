@@ -6,10 +6,10 @@ import { Vector2D } from "./vector-2d.js";
 
 export class CubicBezierCurve {
 
-    private s: Vector2D = new Vector2D(1, 0);
-    private a: Vector2D = new Vector2D(1, 0);
-    private b: Vector2D = new Vector2D(1, 0);
-    private e: Vector2D = new Vector2D(1, 0);
+    private s: Vector2D = new Vector2D(0, 0);
+    private a: Vector2D = new Vector2D(0, 0);
+    private b: Vector2D = new Vector2D(0, 0);
+    private e: Vector2D = new Vector2D(0, 0);
     private equal: boolean = true; // all vectors have the same x/y values
 
     public x(t: number): number {
@@ -51,6 +51,10 @@ export class CubicBezierCurve {
         this.setControlA(x, y);
         this.setControlB(x, y);
         this.setEnd(x, y);
+    }
+
+    public distanceBetween(): number {
+        return this.s.distanceTo(this.e);
     }
 
     public save(): string {

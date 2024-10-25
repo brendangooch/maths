@@ -2,13 +2,14 @@
  *
  */
 
+import { TimeSpeedDistance } from "./time-speed-distance.js";
 import { Vector2D } from "./vector-2d.js";
 
 export class QuadraticBezierCurve {
 
-    private s: Vector2D = new Vector2D(1, 0);
-    private c: Vector2D = new Vector2D(1, 0);
-    private e: Vector2D = new Vector2D(1, 0);
+    private s: Vector2D = new Vector2D(0, 0);
+    private c: Vector2D = new Vector2D(0, 0);
+    private e: Vector2D = new Vector2D(0, 0);
     private equal: boolean = true; // all vectors have the same x/y values
 
     public x(t: number): number {
@@ -46,6 +47,10 @@ export class QuadraticBezierCurve {
         this.setEnd(x, y);
     }
 
+    public distanceBetween(): number {
+        return this.s.distanceTo(this.e);
+    }
+
     // angle in radians
     public setControlByDistanceAndAngleFromStart(distance: number, angle: number): void {
         this.c =
@@ -57,9 +62,9 @@ export class QuadraticBezierCurve {
 
     // sets control half way between start and end, making a perfect straight line
     // makes no sense if all points are equal
-    public makeStraight(): void {
-        if (!this.equal) this.c = this.e.subtract(this.s).divideBy(2).addTo(this.s);
-    }
+    // public makeStraight(): void {
+    //     if (!this.equal) this.c = this.e.subtract(this.s).divideBy(2).addTo(this.s);
+    // }
 
     public save(): string {
         return JSON.stringify({

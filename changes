@@ -1,0 +1,70 @@
+
+
+v1.3.1
+    added AspectRatio + tests class to library and index.ts barrel file
+    adjusted typescript and package.json scripts to turn off annoying ~noUnusedLocals params whilst developing
+    added load() / save() methods to Vector2D & Bezier classes
+
+v2.0.0
+    added/amended to Vector2D class:
+        setXY(x: number, y: number): void - to bet both properties at once
+        equals(v2: Vector2D): boolean
+        setX() instead of set x()
+        setY() instead of set y()
+        setLength(...) instead of set length(...)
+        setAngle(...) instead of set angle(...)
+        addAngle(radians: number): Vector2D - add to existing angle rather than setting again
+        normalise() instead of normalize()
+        added method chaining to all suitable methods, which now return 'this':
+            constructor()
+            setX()
+            setY()
+            setXY()
+            setLength()
+            setAngle()
+            addTo()
+            subtractFrom()
+            multiplyBy()
+            divideBy()
+            normalise()
+            copy()
+
+
+    both Bezier classes:
+        <breaking changes to interface>
+        removed constructor()
+        removed clamp constraint on t parameter - it's possible that client wants to go over or under 1
+        added setStart(v: Vector2D), setEnd(v: Vector2D), setControl/A/B(v: Vector2D), setAll(v: Vector2D) for setting points
+        added efficiencies to getX()/Y() methods
+            returns start vector if t === 0
+            returns end vector if t === 1
+            returns start vector if all points are equal
+        added private calculateX/Y(t: number): number methods for style reasons
+    
+    Quadratic Bezier
+        added setControlByDistanceAndAngleFromStart(angle: number, distance: number): void
+            convenient alternative way to set control point, used by at least one client (DynamicVector)
+        added makeStraight() method to instantly create a straight line between start and end
+            very convenient for DynamicPosition client
+    
+    TESTED ALL NEW FEATURES VISUALLY + ALL TESTS UPDATED AND PASS
+
+
+v3.0.0
+    changed both Bezier classes to accept scalar values (x,y) instead of Vector2D objects in their set methods
+    adjusted tests slightly.  All tests still pass.
+
+
+v4.0.0
+    added distanceBetween() to both Bezier classes, which returns the distance between start and end vector
+    default start values are now 0,0
+    removed makeStraight() from QuadraticBezier - why use a bezier when a vector will do?
+
+
+
+
+
+
+future ideas:
+    could combine both bezier classes into 1 with optional controlB
+    create a "Path" class by combining a series of cubic bezier curves
