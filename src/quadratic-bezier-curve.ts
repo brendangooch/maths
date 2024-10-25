@@ -2,7 +2,6 @@
  *
  */
 
-import { TimeSpeedDistance } from "./time-speed-distance.js";
 import { Vector2D } from "./vector-2d.js";
 
 export class QuadraticBezierCurve {
