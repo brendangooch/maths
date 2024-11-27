@@ -24,11 +24,11 @@ export class Vector2D {
     }
 
     public get angle(): number {
-        return Math.atan2(this.y, this.x);
+        return Math.atan2(this._y, this._x);
     }
 
     public get length(): number {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
+        return Math.sqrt(this._x * this._x + this._y * this._y);
     }
 
     public setX(x: number): Vector2D {
@@ -74,19 +74,19 @@ export class Vector2D {
     }
 
     public add(v2: Vector2D): Vector2D {
-        return new Vector2D(this.x + v2.x, this.y + v2.y);
+        return new Vector2D(this._x + v2.x, this._y + v2.y);
     }
 
     public subtract(v2: Vector2D): Vector2D {
-        return new Vector2D(this.x - v2.x, this.y - v2.y);
+        return new Vector2D(this._x - v2.x, this._y - v2.y);
     }
 
     public multiply(val: number): Vector2D {
-        return new Vector2D(this.x * val, this.y * val);
+        return new Vector2D(this._x * val, this._y * val);
     }
 
     public divide(val: number): Vector2D {
-        return new Vector2D(this.x / val, this.y / val);
+        return new Vector2D(this._x / val, this._y / val);
     }
 
     public addTo(v2: Vector2D): Vector2D {
@@ -114,7 +114,7 @@ export class Vector2D {
     }
 
     public distanceTo(v2: Vector2D): number {
-        return distanceBetween(this.x, this.y, v2.x, v2.y);
+        return distanceBetween(this._x, this._y, v2.x, v2.y);
     }
 
     public normalise(): Vector2D {
@@ -129,13 +129,13 @@ export class Vector2D {
     }
 
     public clone(): Vector2D {
-        return new Vector2D(this.x, this.y);
+        return new Vector2D(this._x, this._y);
     }
 
     public save(): string {
         return JSON.stringify({
-            x: this.x,
-            y: this.y
+            x: this._x,
+            y: this._y
         });
     }
 
@@ -148,7 +148,9 @@ export class Vector2D {
     }
 
     public equals(v2: Vector2D): boolean {
-        return this.x === v2.x && this.y === v2.y;
+        return this._x === v2.x && this._y === v2.y;
     }
+
+
 
 }

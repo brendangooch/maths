@@ -4,6 +4,7 @@
 
 import { Angle } from "./angle.js";
 import { Vector2D } from "./vector-2d.js";
+import { roundToPlaces } from "./round-to-places.js";
 
 describe('Vector2D', () => {
     testAll();
@@ -41,7 +42,6 @@ function testAll(): void {
     testClone();
     testEquals();
     testLoadAndSave();
-
 
 }
 
@@ -724,4 +724,3 @@ function testPropertiesStayTheSameOnSaveThenLoad(): void {
 
     });
 }
-
