@@ -68,3 +68,7 @@ v4.0.0
 future ideas:
     could combine both bezier classes into 1 with optional controlB
     create a "Path" class by combining a series of cubic bezier curves
+
+v4.0.1
+    tiny change to inRange() method; now checks if value is LESS THAN max rather than less than or equal
+    this ensures that no value can match more than one range
